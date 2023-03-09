@@ -1,46 +1,25 @@
-import React from 'react';
-import LandingPage from './LandingPage';
-import './App.css';
-import Header from './Header';
-import CreateSurvey from './CreateSurvey';
-import TakeSurvey from './TakeSurvey';
+import React, { useState } from "react";
+import SideNav from "./SideNav";
+import MainSection from "./MainSection";
+import Header from "./Header";
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../styles/App.css";
+const App = () => {
+  const [active, setActive] = useState("INBOX");
 
-class App extends React.Component{
-
-    state = {survey:false, question:[], createOrTake: true};
-
-    getQuestions = (questions) =>{
-        // console.log("before=>", questions)
-        this.setState({question:questions, survey:false})
-    }
-
-    changeSurvey = (sur=true, val) => {
-        // console.log("val=>",val)
-        this.setState({survey:sur, createOrTake:val})
-    }
-
-    render(){
-        // console.log("app => ", this.state.survey)
-        return (<div className="container">
-                    <div className="row">
-                        <div className="col-lg-3 col-md-3"></div>
-                        <div className="col-lg-6 col-md-6" style={{textAlign:"-webkit-center"}}>
-                            <Header />
-                            {
-                                !(this.state.survey) ? 
-                                <LandingPage changeSurvey={this.changeSurvey} /> :
-                                this.state.createOrTake ?
-                                    <CreateSurvey getQuestions={this.getQuestions} questions={this.state.question}/>:
-                                    <TakeSurvey  changeSurvey={this.changeSurvey} questions={this.state.question} />    
-                            }
-
-                        </div>
-                        <div className="col-lg-3 col-md-3"></div>
-                    </div>
-                    
-                </div>
-        )
-    }
-}
+  return (
+    <div id="main">
+      <Header />
+      <div className="row">
+        <div className="col-md-2">
+          <SideNav change={setActive} />
+        </div>
+        <div className="col-md-10">
+          <MainSection active={active} />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default App;
